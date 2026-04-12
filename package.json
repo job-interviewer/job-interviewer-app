@@ -1,26 +1,22 @@
 {
   "name": "04_socialtone",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Coishy/job_interviewer.git"
+  "dependencies": {
+    "expo": "~54.0.33",
+    "expo-status-bar": "~3.0.9",
+    "react": "19.1.0",
+    "react-native": "0.81.5"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Coishy/job_interviewer/issues"
-  },
-  "homepage": "https://github.com/Coishy/job_interviewer#readme",
   "devDependencies": {
-    "@types/node": "^25.6.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.2"
-  }
+    "@types/react": "~19.1.0",
+    "typescript": "~5.9.2"
+  },
+  "private": true
 }
