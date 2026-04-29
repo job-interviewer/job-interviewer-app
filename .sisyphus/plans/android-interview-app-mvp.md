@@ -197,7 +197,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
 > Implementation + Test = ONE Task. Never separate.
 > EVERY task MUST have: Recommended Agent Profile + Parallelization info + QA Scenarios.
 
-- [ ] 1. REST API 계약 정의
+- [x] 1. REST API 계약 정의
 
   **What to do**:
   - `docs/api-contract.md` 파일 작성
@@ -275,7 +275,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
   - Files: `docs/api-contract.md`
   - Pre-commit: N/A (텍스트 파일)
 
-- [ ] 2. Android 프로젝트 스캐폴딩
+- [x] 2. Android 프로젝트 스캐폴딩
 
   **What to do**:
   - Android Studio에서 Empty Activity (Compose) 템플릿으로 새 프로젝트 생성
@@ -375,7 +375,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
   - Files: `android/**`
   - Pre-commit: `./gradlew assembleDebug`
 
-- [ ] 3. Navigation 그래프 + UI 테마
+- [x] 3. Navigation 그래프 + UI 테마
 
   **What to do**:
   - **Navigation 설정** (`presentation/navigation/`):
@@ -453,7 +453,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
   - Files: `android/app/src/**/presentation/navigation/`, `**/presentation/theme/`, `**/presentation/component/`
   - Pre-commit: `./gradlew compileDebugKotlin`
 
-- [ ] 4. Domain Models + Repository Interface
+- [x] 4. Domain Models + Repository Interface
 
   **What to do**:
   - **Domain 모델** (`domain/model/`) — 순수 Kotlin data class, 의존성 없음:
@@ -569,7 +569,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
   - Files: `android/app/src/**/domain/`
   - Pre-commit: `./gradlew compileDebugKotlin`
 
-- [ ] 5. Retrofit API 클라이언트 + DTOs
+- [x] 5. Retrofit API 클라이언트 + DTOs
 
   **What to do**:
   - **DTO 클래스** (`data/remote/dto/`) — Moshi 어노테이션 포함:
@@ -660,7 +660,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
 
   **Commit**: NO (groups with Tasks 6, 7)
 
-- [ ] 6. Room DB 설정
+- [x] 6. Room DB 설정
 
   **What to do**:
   - **Room Entities** (`data/local/entity/`):
@@ -745,7 +745,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
 
   **Commit**: NO (groups with Tasks 5, 7)
 
-- [ ] 7. UseCases 구현
+- [x] 7. UseCases 구현
 
   **What to do**:
   - **UseCase 클래스** (`domain/usecase/`):
@@ -818,7 +818,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
   - Files: `data/remote/`, `data/local/`, `domain/usecase/`, `di/`
   - Pre-commit: `./gradlew compileDebugKotlin`
 
-- [ ] 8. Repository Implementation + Hilt DI
+- [x] 8. Repository Implementation + Hilt DI
 
   **What to do**:
   - **`InterviewRepositoryImpl.kt`** (`data/repository/`):
@@ -888,7 +888,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
   - Files: `data/repository/InterviewRepositoryImpl.kt`, `di/RepositoryModule.kt`
   - Pre-commit: `./gradlew assembleDebug`
 
-- [ ] 9. Home 화면 + HomeViewModel
+- [x] 9. Home 화면 + HomeViewModel
 
   **What to do**:
   - **`HomeScreen.kt`** (`presentation/screen/`):
@@ -950,7 +950,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
 
   **Commit**: NO (groups with Tasks 10, 11)
 
-- [ ] 10. Upload 화면 + UploadViewModel
+- [x] 10. Upload 화면 + UploadViewModel
 
   **What to do**:
   - **`UploadScreen.kt`**:
@@ -1039,7 +1039,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
 
   **Commit**: NO (groups with Tasks 9, 11)
 
-- [ ] 11. Interview Setup 화면 + SetupViewModel
+- [x] 11. Interview Setup 화면 + SetupViewModel
 
   **What to do**:
   - **`InterviewSetupScreen.kt`**:
@@ -1134,7 +1134,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
   - Files: `presentation/screen/HomeScreen.kt`, `UploadScreen.kt`, `InterviewSetupScreen.kt`, `presentation/viewmodel/*.kt`
   - Pre-commit: `./gradlew assembleDebug`
 
-- [ ] 12. Interview 화면 + InterviewViewModel
+- [x] 12. Interview 화면 + InterviewViewModel
 
   **What to do**:
   - **`InterviewScreen.kt`** (채팅 UI):
@@ -1249,7 +1249,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
 
   **Commit**: NO (groups with Task 13)
 
-- [ ] 13. Completion 화면 + CompletionViewModel
+- [x] 13. Completion 화면 + CompletionViewModel
 
   **What to do**:
   - **`CompletionScreen.kt`**:
@@ -1334,7 +1334,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
   - Files: `presentation/screen/InterviewScreen.kt`, `CompletionScreen.kt`, `presentation/viewmodel/*.kt`
   - Pre-commit: `./gradlew assembleDebug`
 
-- [ ] 14. 단위 테스트 (Unit Tests)
+- [x] 14. 단위 테스트 (Unit Tests)
 
   **What to do**:
   - **UseCase 테스트** (`src/test/.../domain/usecase/`):
@@ -1413,7 +1413,7 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
 
   **Commit**: NO (groups with Task 15)
 
-- [ ] 15. E2E 통합 테스트
+- [x] 15. E2E 통합 테스트
 
   **What to do**:
   - **사전 조건**: 서버(Spring Boot) 로컬에서 실행 중 (`http://localhost:8080` 또는 에뮬레이터 `10.0.2.2:8080`)
@@ -1496,19 +1496,19 @@ Max Concurrent: 3 (Waves 2, 3, 5, 7)
 >
 > **Do NOT auto-proceed after verification. Wait for user's explicit approval before marking work complete.**
 
-- [ ] F1. **Plan Compliance Audit** — `oracle`
+- [x] F1. **Plan Compliance Audit** — `oracle`
   Read the plan end-to-end. For each "Must Have": verify implementation exists. For each "Must NOT Have": search codebase for forbidden patterns. Check evidence files exist in .sisyphus/evidence/. Compare deliverables against plan.
   Output: `Must Have [N/N] | Must NOT Have [N/N] | Tasks [N/N] | VERDICT: APPROVE/REJECT`
 
-- [ ] F2. **Code Quality Review** — `unspecified-high`
+- [x] F2. **Code Quality Review** — `unspecified-high`
   Run `./gradlew assembleDebug` + `./gradlew testDebugUnitTest`. Review all changed files for: `as Any`, empty catches, `println`/`Log.d` in prod, commented-out code. Check AI slop: excessive comments, over-abstraction, generic names.
   Output: `Build [PASS/FAIL] | Tests [N pass/N fail] | Files [N clean/N issues] | VERDICT`
 
-- [ ] F3. **Real Manual QA** — `unspecified-high`
+- [x] F3. **Real Manual QA** — `unspecified-high`
   Execute EVERY QA scenario from EVERY task — follow exact steps, capture evidence. Test edge cases: empty cover letter, very short answer, follow-up toggle ON vs OFF. Save to `.sisyphus/evidence/final-qa/`.
   Output: `Scenarios [N/N pass] | Integration [N/N] | Edge Cases [N tested] | VERDICT`
 
-- [ ] F4. **Scope Fidelity Check** — `deep`
+- [x] F4. **Scope Fidelity Check** — `deep`
   For each task: read "What to do", verify actual diff 1:1. Check "Must NOT do" compliance. Detect cross-task contamination. Flag unaccounted changes.
   Output: `Tasks [N/N compliant] | Contamination [CLEAN/N issues] | VERDICT`
 
