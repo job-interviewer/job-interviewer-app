@@ -25,3 +25,14 @@
 2. POST /api/interview/{sessionId}/answer
 3. POST /api/interview/{sessionId}/complete
 4. GET /api/health (health check)
+
+## [T1-T6 Complete]
+- Spring AI BOM version: 1.1.5 (with Spring Boot 3.4.5)
+- Spring AI artifact: spring-ai-starter-model-google-genai
+- Note: spring-ai-starter-model-google-genai only exists from 1.1.x series, NOT 1.0.x
+- ChatClient bean: injected via ChatClient.Builder in ChatClientConfig
+- JSON extraction: extractJson() helper strips surrounding text from LLM responses
+- InterviewService: startInterview, submitAnswer, completeInterview
+- depth=1 enforced: if question.isFollowUp == true -> skip LLM eval, return needsFollowUp=false
+- followUpEnabled=false: skip LLM eval entirely
+- Health check confirmed working: http://localhost:8080/api/health returns {"status":"ok"}
