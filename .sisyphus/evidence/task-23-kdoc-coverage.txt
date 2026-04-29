@@ -1,0 +1,64 @@
+KDoc Coverage Report — 2026-04-28
+
+=== DOMAIN LAYER KDOC VERIFICATION ===
+
+domain/model/ (10 files):
+✓ AnswerResult.kt — KDoc present (data class)
+✓ Device.kt — KDoc present (data class)
+✓ FollowUp.kt — KDoc present (data class)
+✓ Interview.kt — KDoc present (data class)
+✓ InterviewHistoryItem.kt — KDoc present (data class)
+✓ InterviewStatus.kt — KDoc present (enum class)
+✓ Position.kt — KDoc present (data class)
+✓ Question.kt — KDoc present (data class)
+✓ Result.kt — KDoc present (sealed interface + all subclasses + extension functions)
+✓ Resume.kt — KDoc present (data class)
+Status: 10/10 files have complete KDoc
+
+domain/repository/ (3 files):
+✓ DeviceRepository.kt — KDoc present (interface + all suspend functions)
+✓ InterviewRepository.kt — KDoc present (interface + all suspend functions)
+✓ ResumeRepository.kt — KDoc present (interface + all suspend functions)
+Status: 3/3 files have complete KDoc
+
+domain/usecase/ (8 files):
+✓ RegisterDeviceUseCase.kt — KDoc present (class + invoke function)
+✓ GetPositionsUseCase.kt — KDoc present (class + invoke function)
+✓ UploadResumeUseCase.kt — KDoc present (class + invoke + uploadText functions)
+✓ StartInterviewUseCase.kt — KDoc present (class + invoke function)
+✓ CompleteInterviewUseCase.kt — KDoc present (class + invoke function)
+✓ SubmitAnswerUseCase.kt — KDoc present (class + invoke function)
+✓ GetInterviewHistoryUseCase.kt — KDoc present (class + invoke function)
+✓ GetInterviewDetailUseCase.kt — KDoc present (class + invoke function)
+Status: 8/8 files have complete KDoc
+
+=== DATA LAYER MAPPER VERIFICATION ===
+
+data/remote/mapper/ (4 files):
+✓ DeviceMapper.kt — KDoc present (extension function)
+✓ PositionMapper.kt — KDoc present (extension function)
+✓ ResumeMapper.kt — KDoc present (2 extension functions)
+✓ InterviewMapper.kt — KDoc present (8 extension functions)
+Status: 4/4 files have complete KDoc
+
+=== CODE QUALITY CHECKS ===
+
+TODO/FIXME/HACK comments: 0 found
+Unused imports: 0 found (verified via Gradle compilation)
+
+=== BUILD & TEST VERIFICATION ===
+
+Gradle compileDebugKotlin: PASS
+Gradle testDebugUnitTest: PASS
+
+=== SUMMARY ===
+
+Total files checked: 25
+Files with complete KDoc: 25/25 (100%)
+Missing KDoc: 0
+TODO/FIXME remaining: 0
+Build status: PASS
+Test status: PASS
+
+All public interfaces in the domain layer are fully documented with KDoc.
+iOS colleague can read these as the interface specification.

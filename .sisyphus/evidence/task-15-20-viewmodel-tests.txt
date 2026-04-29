@@ -1,0 +1,22 @@
+=== Task 15-20: ViewModel Refactor Evidence ===
+Date: 2026-04-28 23:32:25
+
+=== compileDebugKotlin ===
+BUILD SUCCESSFUL
+
+=== testDebugUnitTest ===
+BUILD SUCCESSFUL
+Total tests: 79, Failures: 0, Test suites: 19
+
+=== Files Modified ===
+ViewModels (6):
+  - HomeViewModel.kt: AppResult handling for registerDeviceUseCase
+  - PositionSelectionViewModel.kt: Position domain model + AppResult
+  - ResumeUploadViewModel.kt: AppResult unwrapping for Resume + Interview
+  - InterviewReviewViewModel.kt: Interview domain model + AppResult
+  - InterviewHistoryViewModel.kt: domain InterviewHistoryItem + Interview + AppResult
+  - InterviewViewModel.kt: composite InterviewScreenState + AppResult
+Tests (5):
+  - All 5 ViewModel tests updated: AppResult mocks, domain models
+Screens (5):
+  - Updated DTO imports -> domain model imports for build compatibility

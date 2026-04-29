@@ -1,0 +1,15 @@
+Test Baseline — 2026-04-28
+=========================
+TOTAL: 38 tests, 0 failures, 0 errors, 0 skipped
+
+Per file:
+- StartInterviewUseCaseTest:         3 pass / 0 fail
+- SubmitAnswerUseCaseTest:           3 pass / 0 fail
+- InterviewHistoryViewModelTest:     7 pass / 0 fail
+- HomeViewModelTest:                 3 pass / 0 fail
+- InterviewViewModelTest:           11 pass / 0 fail
+- PositionSelectionViewModelTest:    5 pass / 0 fail
+- ResumeUploadViewModelTest:         6 pass / 0 fail
+
+Gradle command: .\gradlew testDebugUnitTest
+Result: BUILD SUCCESSFUL in 2s

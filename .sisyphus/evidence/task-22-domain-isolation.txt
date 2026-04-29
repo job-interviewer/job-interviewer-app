@@ -1,0 +1,9 @@
+Architecture Validation — 2026-04-28
+
+Domain layer isolation:
+  grep "import com.interview.app.data" in domain/ → 0 matches ✅
+
+Presentation layer isolation:  
+  grep "import com.interview.app.data.remote.dto" in presentation/ → 0 matches ✅
+
+Architecture gates: PASS

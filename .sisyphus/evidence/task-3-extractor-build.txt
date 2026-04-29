@@ -1,0 +1,1 @@
+﻿TextExtractorService.kt created with PDFBox (sortByPosition=true) and POI DOCX support

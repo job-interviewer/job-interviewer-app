@@ -1,0 +1,26 @@
+T4: REST API Contract - Verification
+======================================
+Date: 2026-04-24
+
+File: docs/api-contract.md (28,708 bytes)
+
+Endpoints Defined (10/10):
+1. POST /api/devices - Device registration (idempotent)
+2. GET /api/positions - Job position list (6 positions)
+3. POST /api/resumes - File upload (PDF/DOCX)
+4. POST /api/resumes/text - Text input resume
+5. GET /api/resumes/current - Current resume query
+6. POST /api/interviews - Start session + generate questions
+7. POST /api/interviews/{id}/answers - Submit answer + follow-up
+8. POST /api/interviews/{id}/complete - Complete interview
+9. GET /api/interviews - Interview history list
+10. GET /api/interviews/{id} - Interview detail
+
+Error Codes Defined (7/7):
+DEVICE_NOT_FOUND, RESUME_NOT_FOUND, INTERVIEW_NOT_FOUND,
+UNSUPPORTED_FILE_TYPE, FILE_TOO_LARGE, LLM_SERVICE_ERROR, INVALID_REQUEST
+
+Auth Rules: X-Device-Id header required (except POST /api/devices, GET /api/health)
+curl examples: Included for all endpoints
+
+VERDICT: PASS
