@@ -399,7 +399,7 @@ Max Concurrent: 2 (Waves 2, 3, 4)
 
   **Commit**: NO (groups with Wave 2)
 
-- [ ] 4. 인메모리 세션 관리 + 면접 시작 API
+- [x] 4. 인메모리 세션 관리 + 면접 시작 API
 
   **What to do**:
   - **`InterviewSession.kt`** (`model/`) — 세션 도메인 모델:
@@ -516,7 +516,7 @@ Max Concurrent: 2 (Waves 2, 3, 4)
   - Files: `controller/InterviewController.kt`, `service/*.kt`, `model/*.kt`, `dto/*.kt`
   - Pre-commit: `./gradlew build`
 
-- [ ] 5. 답변 제출 + 꼬리질문 API
+- [x] 5. 답변 제출 + 꼬리질문 API
 
   **What to do**:
   - **`FollowUpEvaluationService.kt`** (`service/`):
@@ -607,7 +607,7 @@ Max Concurrent: 2 (Waves 2, 3, 4)
   - Files: `service/FollowUpEvaluationService.kt`, `controller/InterviewController.kt`, `dto/SubmitAnswer*.kt`
   - Pre-commit: `./gradlew build`
 
-- [ ] 6. 면접 완료 API + 글로벌 에러 핸들링
+- [x] 6. 면접 완료 API + 글로벌 에러 핸들링
 
   **What to do**:
   - **InterviewService에 추가** (`completeInterview()`):
