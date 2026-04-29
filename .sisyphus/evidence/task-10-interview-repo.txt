@@ -1,0 +1,56 @@
+=== Task 10: InterviewRepositoryImpl AppResult Refactor - Evidence ===
+Date: 2026-04-28
+
+--- TDD RED Phase (before implementation) ---
+Original InterviewRepositoryImpl.kt had 6 return type errors (not subtype of interface):
+  - getPositions() returned List<PositionResponse>, interface required AppResult<List<Position>>
+  - startInterview() returned InterviewStartResponse, interface required AppResult<Interview>
+  - submitAnswer() returned AnswerSubmitResponse, interface required AppResult<AnswerResult>
+  - completeInterview() returned InterviewCompleteResponse, interface required AppResult<Interview>
+  - getInterviewHistory() returned List<InterviewHistoryItem>(DTO), interface required AppResult<List<InterviewHistoryItem>>(domain)
+  - getInterviewDetail() returned InterviewDetailResponse, interface required AppResult<Interview>
+
+Test file created FIRST (TDD) at:
+  android/app/src/test/kotlin/com/interview/app/data/repository/InterviewRepositoryImplTest.kt
+  - 8 test cases defined
+
+--- TDD GREEN Phase ---
+Ran: .\gradlew compileDebugKotlin 2>&1 | Select-String "InterviewRepositoryImpl|DeviceRepositoryImpl|ResumeRepositoryImpl"
+Result: (EMPTY - no errors in any Impl file)
+
+All 3 Impl files compile cleanly:
+  - DeviceRepositoryImpl.kt: ZERO errors
+  - ResumeRepositoryImpl.kt: ZERO errors
+  - InterviewRepositoryImpl.kt: ZERO errors
+
+--- Changes Made ---
+1. Created test file: android/app/src/test/kotlin/com/interview/app/data/repository/InterviewRepositoryImplTest.kt
+   - 8 test cases covering:
+     - getPositions success -> AppResult.Success with List<Position>
+     - startInterview success -> AppResult.Success with Interview (IN_PROGRESS)
+     - startInterview LLM_SERVICE_ERROR -> AppResult.Error(ServerError, 503)
+     - submitAnswer success -> AppResult.Success with AnswerResult(needsFollowUp=false)
+     - completeInterview success -> AppResult.Success with Interview (COMPLETED)
+     - getInterviewHistory success -> AppResult.Success with List<InterviewHistoryItem>
+     - getInterviewDetail INTERVIEW_NOT_FOUND -> AppResult.Error(ServerError, 404)
+     - getPositions network error -> AppResult.Error(NetworkError)
+
+2. Updated: android/app/src/main/kotlin/com/interview/app/data/repository/InterviewRepositoryImpl.kt
+   - 6 methods all use AppResult try/catch pattern:
+     getPositions:          AppResult<List<Position>>     - api.getPositions().map { it.toDomain() }
+     startInterview:        AppResult<Interview>          - api.startInterview(request).toDomain()
+     submitAnswer:          AppResult<AnswerResult>       - api.submitAnswer(id, request).toDomain()
+     completeInterview:     AppResult<Interview>          - api.completeInterview(id).toDomain()
+     getInterviewHistory:   AppResult<List<HistoryItem>>  - api.getInterviewHistory().map { it.toDomain() }
+     getInterviewDetail:    AppResult<Interview>          - api.getInterviewDetail(id).toDomain()
+   - All catch ErrorInterceptorException + Exception (UnknownError fallback)
+   - Uses InterviewMapper.toDomain() for all conversions
+
+--- Test Execution Note ---
+Tests cannot run with `testDebugUnitTest` at this stage because:
+  ViewModel errors remain (pre-existing, Wave 6 will fix):
+    - ResumeUploadViewModel.kt: unresolved .resumeId, .interviewId (from AppResult<Resume> return)
+    - InterviewReviewViewModel.kt: type mismatch (AppResult<Interview> vs InterviewCompleteResponse)
+    - InterviewHistoryViewModel.kt, InterviewViewModel.kt, PositionSelectionViewModel.kt
+  This is identical to the situation for Tasks 8 and 9 (see task-8-device-repo.txt evidence).
+  All repository Impl files compile cleanly. ViewModels will be fixed in Wave 6.

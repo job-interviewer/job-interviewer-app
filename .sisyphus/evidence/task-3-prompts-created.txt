@@ -1,0 +1,15 @@
+T3: AI Interviewer Prompt Design - Verification
+=================================================
+Date: 2026-04-24
+
+Files Created:
+- backend/src/main/resources/prompts/interview-system.md (면접관 페르소나 + 행동 원칙)
+- backend/src/main/resources/prompts/question-generation.md (이력서+직무 기반 5개 질문 JSON 생성)
+- backend/src/main/resources/prompts/followup-evaluation.md (답변 불충분 판단 5기준 + 꼬리질문)
+- backend/src/main/resources/prompts/academic-redirect.md (학술→실무 리다이렉트)
+
+All prompts are in Korean.
+Variable placeholders: {{resume}}, {{position}}, {{answer}}, {{question}}
+Output format: JSON structured output for question-generation and followup-evaluation
+
+VERDICT: PASS

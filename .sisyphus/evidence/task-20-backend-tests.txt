@@ -1,0 +1,50 @@
+Task 20 - Backend Unit Tests
+==============================
+Date: 2026-04-24
+Result: BUILD SUCCESSFUL
+
+Test Summary
+------------
+Total: 13 tests | Failures: 0 | Errors: 0 | Skipped: 0
+
+DeviceServiceTest (3/3 PASSED)
+  - 새 디바이스 등록 성공
+  - 이미 존재하는 디바이스 → 기존 반환
+  - findByUuid 존재하지 않는 UUID → null
+
+ResumeServiceTest (3/3 PASSED)
+  - 텍스트 이력서 저장 성공
+  - 기존 이력서 존재 시 덮어쓰기
+  - getCurrentResume 없으면 예외
+
+InterviewServiceTest (7/7 PASSED)
+  - 면접 시작 → 5개 질문 생성
+  - 불충분 답변 → 꼬리질문 생성
+  - 충분한 답변 → 꼬리질문 없음
+  - 빈 답변(10자 미만) → LLM 호출 없이 자동 꼬리질문
+  - 꼬리질문에 대한 답변 → 추가 꼬리질문 없음 (depth=1)
+  - 면접 완료 → COMPLETED 상태 변경
+  - 히스토리 목록 → 최신순 정렬
+
+Gradle Command
+--------------
+./gradlew test --rerun-tasks
+BUILD SUCCESSFUL in ~20s
+
+Implementation Notes
+---------------------
+- JUnit 5 + MockK 1.13.10 (no Testcontainers, no DB)
+- DeviceServiceTest: @ExtendWith(MockKExtension::class) + @MockK + @InjectMockKs
+- ResumeServiceTest: Manual construction with Files.createTempDirectory() for uploadDir
+- InterviewServiceTest: Manual construction; DeviceContext.set/clear in @BeforeEach/@AfterEach
+  - ChatClient builder chain fully mocked (prompt→system→user→call→content)
+  - Real jacksonObjectMapper() for JSON parsing
+  - Classpath prompt files from src/main/resources/prompts/ used automatically
+- No Spring context loaded (pure unit tests)
+- No real API calls (Gemini mocked via ChatClient mock)
+
+Test Files Created
+-------------------
+- backend/src/test/kotlin/com/interview/service/DeviceServiceTest.kt
+- backend/src/test/kotlin/com/interview/service/ResumeServiceTest.kt
+- backend/src/test/kotlin/com/interview/service/InterviewServiceTest.kt

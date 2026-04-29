@@ -1,0 +1,22 @@
+{
+  "active_plan": "C:\\Users\\jinwoo\\Desktop\\ALL\\Desktop\\03_Git\\04_Job_Interview\\.sisyphus\\plans\\android-interview-app-mvp.md",
+  "started_at": "2026-04-29T08:06:08.769Z",
+  "session_ids": [
+    "ses_2287dab31ffe5On4GzwJKWU6Xn"
+  ],
+  "plan_name": "android-interview-app-mvp",
+  "agent": "atlas",
+  "session_origins": {
+    "ses_2287dab31ffe5On4GzwJKWU6Xn": "direct"
+  },
+  "task_sessions": {
+    "final-wave:f1": {
+      "task_key": "final-wave:f1",
+      "task_label": "F1",
+      "task_title": "**Plan Compliance Audit** — `oracle`",
+      "session_id": "ses_227896ea9ffe0MQ7GNde6oCISH",
+      "agent": "build",
+      "updated_at": "2026-04-29T09:00:50.767Z"
+    }
+  }
+}
