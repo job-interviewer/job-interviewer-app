@@ -26,6 +26,13 @@ class InterviewRepositoryImpl @Inject constructor(
     private val db: InterviewDatabase
 ) : InterviewRepository {
 
+    /**
+     * Starts an interview session using the provided cover letter and follow-up preference.
+     *
+     * @param coverLetter The cover letter to start the interview with; for TEXT this uses the embedded text, for PDF/DOCX this uses the file at `coverLetter.filePath`.
+     * @param followUpEnabled Whether follow-up questions are enabled for the session.
+     * @return `Result.Success` with an `InterviewSession` when the remote API responds successfully; `Result.Error` containing an error message and, when applicable, the HTTP status code otherwise. On exceptions returns `Result.Error` with the exception message or `"네트워크 오류"` if the message is null.
+     */
     override suspend fun startInterview(coverLetter: CoverLetter, followUpEnabled: Boolean): Result<InterviewSession> {
         return try {
             val response = when (coverLetter.fileType) {
@@ -58,6 +65,16 @@ class InterviewRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Submits an answer for a question in an interview session and returns the evaluation result.
+     *
+     * @param sessionId The identifier of the interview session.
+     * @param questionId The identifier of the question being answered.
+     * @param answer The answer text to submit.
+     * @return A Result containing an AnswerResult when the API accepts the answer; otherwise a Result.Error
+     *         containing an HTTP status code on non-successful responses or the exception message. If an
+     *         exception has no message, the error message will be "네트워크 오류".
+     */
     override suspend fun submitAnswer(sessionId: String, questionId: String, answer: String): Result<AnswerResult> {
         return try {
             val response = api.submitAnswer(sessionId, SubmitAnswerRequest(questionId, answer))
@@ -77,6 +94,12 @@ class InterviewRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Marks the interview identified by the given sessionId as complete on the remote service.
+     *
+     * @param sessionId The interview session identifier to complete.
+     * @return `Result.Success(Unit)` if the completion request succeeded, `Result.Error` containing an error message (and HTTP status code when available) otherwise.
+     */
     override suspend fun completeInterview(sessionId: String): Result<Unit> {
         return try {
             val response = api.completeInterview(sessionId)
@@ -87,6 +110,13 @@ class InterviewRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Persists an interview session and its chat messages into the local database.
+     *
+     * @param sessionId Identifier of the interview session to save.
+     * @param jobField Job field associated with the session.
+     * @param messages Chat messages to store; each message is converted into a ChatMessageEntity with `messageType` set to the message's type name, `content`, and associated `questionId`.
+     */
     override suspend fun saveSessionLocally(sessionId: String, jobField: String, messages: List<ChatMessage>) {
         db.interviewDao().insertSession(InterviewSessionEntity(sessionId, jobField))
         db.interviewDao().insertMessages(messages.map {

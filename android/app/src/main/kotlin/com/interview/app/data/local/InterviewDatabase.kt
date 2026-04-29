@@ -12,5 +12,10 @@ import com.interview.app.data.local.entity.InterviewSessionEntity
     exportSchema = false
 )
 abstract class InterviewDatabase : RoomDatabase() {
-    abstract fun interviewDao(): InterviewDao
+    /**
+ * Provides the DAO for accessing interview-related entities.
+ *
+ * @return An [InterviewDao] for performing CRUD operations on interview sessions and chat messages.
+ */
+abstract fun interviewDao(): InterviewDao
 }

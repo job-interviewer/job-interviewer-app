@@ -25,6 +25,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.interview.app.presentation.viewmodel.CompletionViewModel
 
+/**
+ * Displays the completion screen for an interview session.
+ *
+ * Shows a scaffolded screen titled "면접 완료" that presents a completion message, the job field from
+ * the view model state, an optional summary list of chat messages (labelled by message type), and a
+ * full-width "처음으로" button.
+ *
+ * @param sessionId Identifier of the interview session.
+ * @param onRestart Callback invoked when the "처음으로" button is clicked.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompletionScreen(

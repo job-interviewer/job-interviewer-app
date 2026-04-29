@@ -20,6 +20,13 @@ class CompletionViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(CompletionUiState())
     val uiState: StateFlow<CompletionUiState> = _uiState.asStateFlow()
 
+    /**
+     * Populate the view model's UI state with the provided session ID, job field, and chat messages.
+     *
+     * @param sessionId Identifier for the current completion session.
+     * @param jobField The job field associated with this completion.
+     * @param messages The list of chat messages to display in the UI state.
+     */
     fun initialize(sessionId: String, jobField: String, messages: List<ChatMessage>) {
         _uiState.value = CompletionUiState(sessionId = sessionId, jobField = jobField, chatMessages = messages)
     }

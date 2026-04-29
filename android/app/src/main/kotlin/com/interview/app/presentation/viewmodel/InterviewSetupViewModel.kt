@@ -32,10 +32,25 @@ class InterviewSetupViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(InterviewSetupUiState())
     val uiState: StateFlow<InterviewSetupUiState> = _uiState.asStateFlow()
 
+    /**
+     * Set whether follow-up questions should be included in the interview.
+     *
+     * @param enabled `true` to include follow-up questions, `false` to exclude them.
+     */
     fun onFollowUpToggled(enabled: Boolean) {
         _uiState.value = _uiState.value.copy(followUpEnabled = enabled)
     }
 
+    /**
+     * Initiates an interview session using either raw text or a file and handles UI state updates.
+     *
+     * Starts the interview by building a CoverLetter from the provided `text` or `uri`, invokes the repository to start the interview, and updates UI state to reflect loading and any error message. On success, invokes `onSuccess` with the created session ID.
+     *
+     * @param text The cover letter text to use when `inputMode` is `InputMode.TEXT`; ignored for `InputMode.FILE`.
+     * @param uri The content Uri of the file to use when `inputMode` is `InputMode.FILE`; must be non-null in that case.
+     * @param inputMode Selects whether to use `text` or `uri` to construct the cover letter.
+     * @param onSuccess Callback invoked with the session ID when the interview is started successfully.
+     */
     fun startInterview(
         text: String?,
         uri: Uri?,
@@ -69,6 +84,12 @@ class InterviewSetupViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Converts a content `Uri` into a temporary file stored in the application's cache directory and returns its filesystem path.
+     *
+     * @param uri The content `Uri` to read and copy to a temporary file.
+     * @return The absolute path of the created temporary file, or an empty string if the URI could not be opened. 
+     */
     private fun uriToFilePath(uri: Uri): String {
         val inputStream = context.contentResolver.openInputStream(uri) ?: return ""
         val ext = context.contentResolver.getType(uri)?.let {

@@ -14,6 +14,14 @@ class JobDetectionService(
         ClassPathResource("prompts/job-detection.md").inputStream.bufferedReader().readText()
     }
 
+    /**
+     * Detects the job field from the provided resume text by sending a prompt to the configured LLM and parsing the model's JSON-like response.
+     *
+     * If no `jobField` can be extracted or an error occurs, returns `"일반 직무"`.
+     *
+     * @param resumeText The full resume text to include in the prompt.
+     * @return The detected `jobField` value from the model response, or `"일반 직무"` as a fallback.
+     */
     fun detectJobField(resumeText: String): String {
         val prompt = promptTemplate.replace("{{resume}}", resumeText)
         return try {
@@ -28,6 +36,16 @@ class JobDetectionService(
         }
     }
 
+    /**
+     * Extracts the outermost JSON object from the given text.
+     *
+     * Finds the first occurrence of '{' and the last occurrence of '}' and returns
+     * the substring between them (inclusive). If no valid JSON-like boundaries are
+     * found, returns the original text unchanged.
+     *
+     * @param text The input string that may contain a JSON object.
+     * @return The extracted JSON object substring if found, otherwise the original input.
+     */
     private fun extractJson(text: String): String {
         val start = text.indexOf('{')
         val end = text.lastIndexOf('}')

@@ -27,6 +27,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.interview.app.presentation.viewmodel.InputMode
 import com.interview.app.presentation.viewmodel.InterviewSetupViewModel
 
+/**
+ * Renders the interview setup screen that lets the user toggle follow-up question generation and start an interview.
+ *
+ * The UI displays an app bar titled "면접 설정", a description, a switch to enable or disable follow-up questions,
+ * an optional error message, and a primary "면접 시작" button. Tapping the button starts an interview using the
+ * provided cover letter (text or URI) and input mode; on successful start the provided callback is invoked with the
+ * created session ID and the current follow-up setting.
+ *
+ * @param coverLetterText Optional cover letter text to include when starting the interview.
+ * @param coverLetterUri Optional cover letter URI to include when starting the interview.
+ * @param inputMode Configuration that determines how interview input is provided.
+ * @param onInterviewStarted Callback invoked after a successful interview start with the new `sessionId` and
+ *                          a `followUpEnabled` flag indicating whether follow-up questions were enabled.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InterviewSetupScreen(

@@ -13,6 +13,14 @@ private val LightColorScheme = lightColorScheme(
     onSurface = OnSurfaceLight,
 )
 
+/**
+ * Applies the app's Material 3 light theme to the provided composable content.
+ *
+ * This sets the color scheme and typography used by MaterialTheme for any composables
+ * rendered inside `content`.
+ *
+ * @param content Composable UI content that will be styled with the app's theme.
+ */
 @Composable
 fun InterviewAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(

@@ -13,6 +13,14 @@ class EmptyDocumentException(message: String) : RuntimeException(message)
 @Service
 class TextExtractorService {
 
+    /**
+     * Selects a text extraction strategy based on the file extension and returns the extracted text.
+     *
+     * @param inputStream The uploaded file's input stream to be consumed by the extractor.
+     * @param fileName The original file name used to determine the extension (e.g., "doc.pdf").
+     * @return The extracted and trimmed textual content of the document.
+     * @throws UnsupportedFileException If the file extension is not "pdf" or "docx".
+     */
     fun extractText(inputStream: InputStream, fileName: String): String {
         val ext = fileName.substringAfterLast('.', "").lowercase()
         return when (ext) {
@@ -22,6 +30,12 @@ class TextExtractorService {
         }
     }
 
+    /**
+     * Extracts and returns the trimmed plain text content from a PDF input stream.
+     *
+     * @return The extracted text trimmed of leading and trailing whitespace.
+     * @throws EmptyDocumentException If the extracted text length is less than 50 characters (e.g., a scanned or effectively empty PDF).
+     */
     private fun extractPdf(inputStream: InputStream): String {
         return PDDocument.load(inputStream, MemoryUsageSetting.setupMixed(50L * 1024 * 1024)).use { doc ->
             val stripper = PDFTextStripper().apply {
@@ -35,6 +49,13 @@ class TextExtractorService {
         }
     }
 
+    /**
+     * Extracts and returns plain text from a DOCX input stream.
+     *
+     * @param inputStream The input stream containing a DOCX file.
+     * @return The extracted text trimmed of surrounding whitespace.
+     * @throws EmptyDocumentException if the extracted text is shorter than 50 characters.
+     */
     private fun extractDocx(inputStream: InputStream): String {
         XWPFDocument(inputStream).use { doc ->
             val text = doc.paragraphs.joinToString("\n") { it.text }.trim()

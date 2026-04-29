@@ -18,6 +18,15 @@ class InterviewService(
     private val questionGenerationService: QuestionGenerationService,
     private val followUpEvaluationService: FollowUpEvaluationService
 ) {
+    /**
+     * Starts a new interview session using provided resume text or an uploaded resume file.
+     *
+     * @param coverLetterText The resume or cover letter text to use if no file is uploaded.
+     * @param file An uploaded resume file whose text will be extracted when present and not empty.
+     * @param followUpEnabled If true, enables generation of follow-up questions during the session.
+     * @throws CoverLetterTooShortException If neither input provides sufficient text (trimmed length < 10) or both are missing/blank.
+     * @return The persisted InterviewSession initialized with detected job field, generated questions, and the follow-up setting.
+     */
     fun startInterview(
         coverLetterText: String?,
         file: MultipartFile?,
@@ -47,6 +56,18 @@ class InterviewService(
         return session
     }
 
+    /**
+     * Processes a submitted answer for a session question and, if appropriate, generates a follow-up question.
+     *
+     * Stores the answer on the matched question and, when follow-ups are enabled and the question is not itself a follow-up,
+     * evaluates whether a follow-up is needed and attaches a generated follow-up question to the original question.
+     *
+     * @param sessionId Identifier of the interview session containing the question.
+     * @param questionId Identifier of the question being answered.
+     * @param answer The respondent's answer content.
+     * @return A SubmitAnswerResponse indicating whether a follow-up is required; if `needsFollowUp` is `true`, `followUpQuestion` contains the generated follow-up question, otherwise it is `null`.
+     * @throws SessionNotFoundException If the session or the specified question cannot be found.
+     */
     fun submitAnswer(sessionId: String, questionId: String, answer: String): SubmitAnswerResponse {
         val session = sessionStore.findById(sessionId)
             ?: throw SessionNotFoundException("세션을 찾을 수 없습니다: $sessionId")
@@ -85,6 +106,14 @@ class InterviewService(
         return SubmitAnswerResponse(needsFollowUp = false, followUpQuestion = null)
     }
 
+    /**
+     * Marks the interview session identified by `sessionId` as completed and returns its completion details.
+     *
+     * @param sessionId The identifier of the interview session to complete.
+     * @return A CompleteInterviewResponse containing the sessionId, detected job field, and completion timestamp as a string.
+     * @throws SessionNotFoundException if no session exists for the given `sessionId`.
+     * @throws SessionAlreadyCompletedException if the session has already been completed.
+     */
     fun completeInterview(sessionId: String): CompleteInterviewResponse {
         val session = sessionStore.findById(sessionId)
             ?: throw SessionNotFoundException("세션을 찾을 수 없습니다: $sessionId")
@@ -100,6 +129,13 @@ class InterviewService(
         )
     }
 
+    /**
+     * Finds a question within the session by its ID, checking both top-level questions and their immediate follow-ups.
+     *
+     * @param session The interview session to search.
+     * @param questionId The identifier of the question to find.
+     * @return The matching `InterviewQuestion` if present, `null` otherwise.
+     */
     private fun findQuestion(session: InterviewSession, questionId: String): InterviewQuestion? {
         for (q in session.questions) {
             if (q.questionId == questionId) return q

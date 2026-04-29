@@ -18,6 +18,12 @@ import com.interview.app.presentation.screen.InterviewSetupScreen
 import com.interview.app.presentation.screen.UploadScreen
 import com.interview.app.presentation.viewmodel.InputMode
 
+/**
+ * Hosts the app's navigation graph and retains upload-related UI state across configuration changes.
+ *
+ * Provides navigation between Home, Upload, InterviewSetup, Interview, and Completion screens.
+ * Retains and supplies cover-letter text (`String?`), cover-letter URI (`Uri?`), and input mode (`InputMode`, defaults to `InputMode.TEXT`) to downstream screens.
+ */
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()

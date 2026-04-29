@@ -39,6 +39,19 @@ import com.interview.app.domain.model.MessageType
 import com.interview.app.domain.model.Question
 import com.interview.app.presentation.viewmodel.InterviewViewModel
 
+/**
+ * Renders an interview chat UI for a given session and manages interaction flow.
+ *
+ * Observes the ViewModel state to display chat messages, a loading indicator, and an input row for answers.
+ * Initializes the interview when `sessionId` changes, scrolls the message list to the newest item when messages update,
+ * and invokes `onComplete(sessionId)` when the interview session is marked completed.
+ *
+ * @param sessionId Identifier of the interview session to render.
+ * @param questions Initial list of questions to present during the interview.
+ * @param jobField Job field label displayed in the top app bar.
+ * @param followUpEnabled Enables follow-up question behavior when true.
+ * @param onComplete Callback invoked with `sessionId` when the interview completes.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InterviewScreen(
@@ -122,6 +135,13 @@ fun InterviewScreen(
     }
 }
 
+/**
+ * Displays a single chat message as a styled speech bubble, aligned and colored according to the message type.
+ *
+ * When the message is a follow-up question, a "꼬리질문" label is shown above the message content.
+ *
+ * @param message The chat message to render; its `type` determines alignment and bubble styling, and its `content` is shown as the bubble body.
+ */
 @Composable
 private fun ChatBubble(message: ChatMessage) {
     val isQuestion = message.type == MessageType.QUESTION || message.type == MessageType.FOLLOWUP_QUESTION

@@ -17,6 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+/**
+ * Shows the home screen for "AI 면접 연습" with a centered title, descriptive text, and a full-width start button.
+ *
+ * @param onStartClick Callback invoked when the "면접 시작하기" button is pressed.
+ */
 @Composable
 fun HomeScreen(onStartClick: () -> Unit) {
     Scaffold { innerPadding ->
