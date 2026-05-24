@@ -18,19 +18,38 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    @Provides
+    /**
+         * Creates a Moshi instance configured for Kotlin data classes.
+         *
+         * Registers `KotlinJsonAdapterFactory` so Moshi can handle Kotlin-specific constructs (data classes, non-null types).
+         *
+         * @return A `Moshi` instance with `KotlinJsonAdapterFactory` registered.
+         */
+        @Provides
     @Singleton
     fun provideMoshi(): Moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
-    @Provides
+    /**
+         * Provides a singleton OkHttpClient configured with an HTTP logging interceptor that logs request and response bodies.
+         *
+         * @return An OkHttpClient instance with HTTP logging set to `BODY`.
+         */
+        @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
         .build()
 
-    @Provides
+    /**
+             * Creates a Retrofit instance configured for the application's API.
+             *
+             * @param okHttpClient The HTTP client to use for network requests.
+             * @param moshi The Moshi instance used to serialize and deserialize JSON.
+             * @return A Retrofit instance configured with the application's base URL, the provided OkHttpClient, and a Moshi converter.
+             */
+            @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit =
         Retrofit.Builder()
@@ -39,7 +58,13 @@ object NetworkModule {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
 
-    @Provides
+    /**
+         * Creates an implementation of InterviewApi using the provided Retrofit instance.
+         *
+         * @param retrofit Retrofit instance used to create the API implementation.
+         * @return An InterviewApi implementation backed by the given Retrofit client.
+         */
+        @Provides
     @Singleton
     fun provideInterviewApi(retrofit: Retrofit): InterviewApi =
         retrofit.create(InterviewApi::class.java)

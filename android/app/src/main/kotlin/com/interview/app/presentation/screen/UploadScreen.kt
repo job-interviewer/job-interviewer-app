@@ -30,6 +30,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.interview.app.presentation.viewmodel.InputMode
 import com.interview.app.presentation.viewmodel.UploadViewModel
 
+/**
+ * Displays a resume upload screen with selectable text and file input modes.
+ *
+ * Shows UI that lets the user switch between entering resume text or selecting a file,
+ * reflects selection state from the provided ViewModel, and calls `onProceed` with the
+ * entered text or selected URI and the active `InputMode` when the user advances.
+ *
+ * @param onProceed Callback invoked when the user taps the proceed button. Receives
+ *                  the entered text (or `null` if file mode), the selected `Uri`
+ *                  (or `null` if text mode), and the current `InputMode`.
+ * @param viewModel ViewModel that provides UI state and handles user actions;
+ *                  defaults to the Hilt-provided `UploadViewModel`.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UploadScreen(

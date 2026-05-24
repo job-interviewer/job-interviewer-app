@@ -5,6 +5,11 @@ from discord.ext import commands
 from pathlib import Path
 
 def _load_env():
+    """
+    Load environment variables from a `.env` file located in the same directory as this script.
+    
+    Reads the file using UTF-8, ignores empty lines and lines starting with `#`, parses lines of the form `KEY=VALUE`, strips surrounding whitespace and surrounding double quotes from values, and sets each key in the process environment only if it is not already defined.
+    """
     env_path = Path(__file__).parent / ".env"
     if env_path.exists():
         for line in env_path.read_text(encoding="utf-8").splitlines():
@@ -27,6 +32,18 @@ bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 
 
 def api_start_interview(resume_text: str, follow_up: bool = True):
+    """
+    Start an interview session on the backend using the provided resume text.
+    
+    Parameters:
+        resume_text (str): Resume or cover letter text to be submitted to the backend.
+        follow_up (bool): Whether the backend should enable follow-up questions for the session.
+    
+    Returns:
+        tuple: (response_json, status_code)
+            response_json (dict): Parsed JSON body returned by the backend.
+            status_code (int): HTTP status code from the backend response.
+    """
     resp = requests.post(
         f"{BASE_URL}/api/interview/start",
         json={"coverLetterText": resume_text, "followUpEnabled": follow_up},
@@ -36,6 +53,17 @@ def api_start_interview(resume_text: str, follow_up: bool = True):
 
 
 def api_submit_answer(session_id: str, question_id: str, answer: str):
+    """
+    Submit an answer for a question in an existing interview session to the backend.
+    
+    Parameters:
+        session_id (str): The interview session identifier returned by the backend.
+        question_id (str): The backend's identifier for the question being answered.
+        answer (str): The user's answer text to submit.
+    
+    Returns:
+        tuple: A pair (response_json, status_code) where `response_json` is the parsed JSON body from the backend and `status_code` is the HTTP status code.
+    """
     resp = requests.post(
         f"{BASE_URL}/api/interview/{session_id}/answer",
         json={"questionId": question_id, "answer": answer},
@@ -45,6 +73,15 @@ def api_submit_answer(session_id: str, question_id: str, answer: str):
 
 
 def api_complete(session_id: str):
+    """
+    Mark the interview session with the given session_id as complete on the backend and return the backend's response.
+    
+    Parameters:
+        session_id (str): The interview session identifier to complete.
+    
+    Returns:
+        tuple: A pair (response_json, status_code) where `response_json` is the parsed JSON body from the backend and `status_code` is the HTTP status code.
+    """
     resp = requests.post(
         f"{BASE_URL}/api/interview/{session_id}/complete",
         timeout=10
@@ -53,6 +90,15 @@ def api_complete(session_id: str):
 
 
 def format_questions(questions: list) -> str:
+    """
+    Format a list of question objects into a human-readable string for display.
+    
+    Parameters:
+        questions (list): Sequence of mappings each containing at least `orderIndex` (display number) and `content` (question text).
+    
+    Returns:
+        str: A string where each question is rendered as "**Q{orderIndex}.** {content}" with a blank line between questions.
+    """
     lines = []
     for q in questions:
         lines.append(f"**Q{q['orderIndex']}.** {q['content']}")
@@ -61,12 +107,29 @@ def format_questions(questions: list) -> str:
 
 @bot.event
 async def on_ready():
+    """
+    Handle the Discord bot's ready event by printing the logged-in bot user and the configured channel ID to stdout.
+    """
     print(f"✅ 봇 로그인: {bot.user}")
     print(f"📌 채널 ID: {CHANNEL_ID}")
 
 
 @bot.event
 async def on_message(message: discord.Message):
+    """
+    Handle incoming Discord messages: process bot commands, start/drive interview sessions, and route answers to the backend.
+    
+    This function ignores messages from bots and messages not in the configured channel, forwards commands to the command processor, and implements the chat flow for three user-facing actions:
+    - `!면접 [resume]`: validates the resume text, calls the backend to start an interview session, stores session state in the module-level `sessions` mapping, and sends the first question.
+    - `!종료`: ends the user's active session by calling the backend complete endpoint, removes session state, and sends a completion summary.
+    - `!도움말`: sends usage instructions.
+    
+    While a session is active and awaiting an answer, any non-command message from the session user is treated as an answer: the function submits the answer to the backend, handles follow-up questions (presenting them when returned), advances to the next question, and completes the session when all questions are answered. All user-visible outcomes are delivered via channel messages; network errors and non-200 backend responses are reported to the user.
+    
+    Parameters:
+        message (discord.Message): The incoming Discord message to handle.
+    
+    """
     if message.author.bot:
         return
     if message.channel.id != CHANNEL_ID:

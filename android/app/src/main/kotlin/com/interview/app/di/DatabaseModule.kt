@@ -14,7 +14,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-    @Provides
+    /**
+         * Provides the application-wide InterviewDatabase instance.
+         *
+         * @return The created InterviewDatabase configured for the app (database name "interview.db").
+         */
+        @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): InterviewDatabase =
         Room.databaseBuilder(context, InterviewDatabase::class.java, "interview.db").build()

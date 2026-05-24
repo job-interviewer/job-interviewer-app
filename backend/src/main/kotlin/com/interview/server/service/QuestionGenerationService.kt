@@ -15,6 +15,16 @@ class QuestionGenerationService(
         ClassPathResource("prompts/question-generation.md").inputStream.bufferedReader().readText()
     }
 
+    /**
+     * Generates interview questions tailored to the provided resume and job field.
+     *
+     * Builds a prompt from the service's template, requests generation from the chat client, extracts a JSON array from the response, and returns the parsed list of InterviewQuestion objects. The method attempts generation up to two times before failing.
+     *
+     * @param resumeText Resume text used to contextualize the generated questions.
+     * @param jobField Target job field used to tailor question content and categories.
+     * @return A list of generated InterviewQuestion objects; contains at least one question when successful.
+     * @throws GeminiApiException if the chat response is missing, no valid questions are produced, or all attempts fail.
+     */
     fun generateQuestions(resumeText: String, jobField: String): List<InterviewQuestion> {
         val prompt = promptTemplate
             .replace("{{resume}}", resumeText)
@@ -45,6 +55,11 @@ class QuestionGenerationService(
         throw GeminiApiException("질문 생성에 실패했습니다: ${lastException?.message}")
     }
 
+    /**
+     * Extracts the first JSON array found in the given text.
+     *
+     * @return The substring containing the JSON array (from the first '[' to the last ']'), or the original text if no valid array is found.
+     */
     private fun extractJsonArray(text: String): String {
         val start = text.indexOf('[')
         val end = text.lastIndexOf(']')

@@ -10,6 +10,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    /**
+     * Initializes the activity: enables edge-to-edge rendering and sets the Jetpack Compose UI using InterviewAppTheme with AppNavHost as the root navigation container.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
